@@ -80,7 +80,16 @@
         },
         "healthcareCompliance.lcd.defaultMac": {
           "type": "string",
-          "enum": ["", "A", "B", "C", "D", "E", "F", "auto"],
+          "enum": [
+            "",
+            "A",
+            "B",
+            "C",
+            "D",
+            "E",
+            "F",
+            "auto"
+          ],
           "default": "auto",
           "description": "Default MAC jurisdiction for LCD lookups (auto-detect from NPI if not specified)"
         },
@@ -91,7 +100,12 @@
         },
         "healthcareCompliance.audit.logLevel": {
           "type": "string",
-          "enum": ["error", "warn", "info", "debug"],
+          "enum": [
+            "error",
+            "warn",
+            "info",
+            "debug"
+          ],
           "default": "info",
           "description": "Audit log verbosity level"
         }
@@ -168,8 +182,14 @@
     "languages": [
       {
         "id": "ccda",
-        "aliases": ["C-CDA", "CCDA"],
-        "extensions": [".ccda", ".cda"],
+        "aliases": [
+          "C-CDA",
+          "CCDA"
+        ],
+        "extensions": [
+          ".ccda",
+          ".cda"
+        ],
         "configuration": "./language-configuration.json"
       }
     ]
@@ -178,13 +198,17 @@
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
-    "pretest": "npm run compile && npm run lint",
+    "pretest": "npm run compile",
     "lint": "eslint src --ext ts",
-    "test": "node ./out/test/runTest.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:ci": "jest --ci --coverage --reporters=default --reporters=jest-junit",
     "package": "vsce package",
     "publish": "vsce publish"
   },
   "devDependencies": {
+    "@types/jest": "^30.0.0",
     "@types/node": "^20.10.0",
     "@types/vscode": "^1.96.0",
     "@typescript-eslint/eslint-plugin": "^6.13.0",
@@ -192,6 +216,8 @@
     "@vscode/test-electron": "^2.3.8",
     "@vscode/vsce": "^2.22.0",
     "eslint": "^8.54.0",
+    "jest": "^30.2.0",
+    "ts-jest": "^29.4.6",
     "typescript": "^5.3.2"
   },
   "dependencies": {
