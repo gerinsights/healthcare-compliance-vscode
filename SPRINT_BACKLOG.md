@@ -27,6 +27,47 @@ This document tracks features and improvements identified in the codebase as req
 
 ---
 
+### Unit Test Suite - Phase 2 ✅
+**Priority:** 🔴 P0 | **Status:** COMPLETED | **Date:** 2025-12-15
+
+**Completed:**
+- [x] C-CDA R2.1 validation tests (35 tests)
+  - XML structure and ClinicalDocument validation
+  - Header element validation (10 required elements)
+  - Template ID validation for all document types
+  - Patient information and section validation
+- [x] FHIR R4 validation tests (67 tests)
+  - US Core 5.0.1 profile validation
+  - Terminology binding validation (SNOMED, LOINC, RxNorm)
+  - Reference integrity checking
+  - Bundle validation (transaction, document, collection)
+  - Resource-specific validation (Patient, Observation, Condition, etc.)
+- [x] Clinical calculator tests (54 tests)
+  - CHA₂DS₂-VASc stroke risk
+  - CURB-65 pneumonia mortality
+  - GFR CKD-EPI 2021 (race-free)
+  - MELD-Na liver disease
+  - HAS-BLED bleeding risk
+  - Wells DVT/PE scores
+  - ASCVD 10-year cardiovascular risk
+
+**Test Results:** 220/220 passing (100%)
+
+---
+
+### FHIR R4 Validation Tool ✅
+**Priority:** 🟠 P1 | **Status:** COMPLETED | **Date:** 2025-12-15
+
+**Completed:**
+- [x] Create `src/tools/fhir-validate.ts` (778 lines)
+- [x] Implement US Core profile validation
+- [x] Support common resource types: Patient, Encounter, Observation, Condition, MedicationRequest
+- [x] Validate reference integrity
+- [x] Check terminology bindings (SNOMED CT, LOINC, RxNorm)
+- [x] Support FHIR bundles (transaction, document, collection)
+
+---
+
 ## 📋 Backlog Items
 
 ### 1. Formula Update Checker - Live Guideline API Integration
