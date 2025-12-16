@@ -1,0 +1,33 @@
+Healthcare Compliance VS Code Extension
+Copyright 2025 GerInsights
+
+This product includes software developed by GerInsights.
+
+This software contains proprietary algorithms and methodologies for:
+- PHI (Protected Health Information) detection and classification
+- HIPAA compliance validation and risk assessment
+- Clinical calculator implementations with versioned formulas
+- Healthcare document validation (CCDA, MDS 3.0)
+- State healthcare law cross-referencing
+
+PATENT NOTICE:
+Certain features and methodologies implemented in this software may be
+covered by pending or issued patents owned by GerInsights. The Apache
+License 2.0 grants a patent license only for the Contributions made by
+Contributors to this Work. Use of this software does not grant any
+additional patent rights beyond those explicitly stated in the License.
+
+TRADEMARK NOTICE:
+"Healthcare Compliance", "GerInsights", and associated logos are
+trademarks of GerInsights. This License does not grant permission to
+use these trademarks except as required for reasonable and customary
+use in describing the origin of the Work.
+
+Third-Party Notices:
+This software integrates with the following public APIs:
+- NPPES NPI Registry (CMS/HHS)
+- FDA NDC Directory
+- data.cms.gov (optional)
+- OpenStates API (optional)
+
+Use of these APIs is subject to their respective terms of service.

@@ -1,0 +1,202 @@
+{
+  "name": "healthcare-compliance",
+  "displayName": "Healthcare Compliance",
+  "description": "Healthcare compliance agent with PHI detection, HIPAA validation, CMS/NPI/NDC lookups, clinical calculators, and CCDA/FHIR validation",
+  "version": "0.1.0",
+  "publisher": "gerinsights",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gerinsights/healthcare-compliance-vscode"
+  },
+  "engines": {
+    "vscode": "^1.96.0"
+  },
+  "categories": [
+    "Other",
+    "Linters"
+  ],
+  "keywords": [
+    "healthcare",
+    "HIPAA",
+    "compliance",
+    "PHI",
+    "medical",
+    "clinical",
+    "FHIR",
+    "CCDA",
+    "NPI",
+    "NDC",
+    "CMS",
+    "MCP"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "Healthcare Compliance",
+      "properties": {
+        "healthcareCompliance.apiKeys.cms": {
+          "type": "string",
+          "default": "",
+          "description": "CMS data.cms.gov API key for LCD lookups",
+          "markdownDescription": "API key for [data.cms.gov](https://data.cms.gov). Click [Get your free key](command:healthcareCompliance.registerCmsApiKey) to register."
+        },
+        "healthcareCompliance.apiKeys.openStates": {
+          "type": "string",
+          "default": "",
+          "description": "OpenStates API key for state law tracking",
+          "markdownDescription": "API key for [OpenStates](https://openstates.org/api/). Click [Register for free key](command:healthcareCompliance.registerOpenStatesApiKey) to get started."
+        },
+        "healthcareCompliance.calculators.autoUpdate": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically check for calculator formula updates weekly"
+        },
+        "healthcareCompliance.calculators.lastUpdateCheck": {
+          "type": "string",
+          "default": "",
+          "description": "Last formula update check timestamp (managed by extension)",
+          "scope": "application"
+        },
+        "healthcareCompliance.phi.strictMode": {
+          "type": "boolean",
+          "default": false,
+          "description": "High sensitivity PHI detection (more false positives, fewer misses)"
+        },
+        "healthcareCompliance.phi.scanOnSave": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically scan files for PHI on save"
+        },
+        "healthcareCompliance.stateLaw.defaultState": {
+          "type": "string",
+          "default": "",
+          "maxLength": 2,
+          "pattern": "^[A-Z]{0,2}$",
+          "description": "Default state for healthcare privacy law lookups (2-letter code, e.g., CA, NY)"
+        },
+        "healthcareCompliance.lcd.defaultMac": {
+          "type": "string",
+          "enum": ["", "A", "B", "C", "D", "E", "F", "auto"],
+          "default": "auto",
+          "description": "Default MAC jurisdiction for LCD lookups (auto-detect from NPI if not specified)"
+        },
+        "healthcareCompliance.audit.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable audit logging for compliance actions"
+        },
+        "healthcareCompliance.audit.logLevel": {
+          "type": "string",
+          "enum": ["error", "warn", "info", "debug"],
+          "default": "info",
+          "description": "Audit log verbosity level"
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "healthcareCompliance.registerCmsApiKey",
+        "title": "Register for CMS API Key",
+        "category": "Healthcare Compliance"
+      },
+      {
+        "command": "healthcareCompliance.registerOpenStatesApiKey",
+        "title": "Register for OpenStates API Key",
+        "category": "Healthcare Compliance"
+      },
+      {
+        "command": "healthcareCompliance.showApiKeyStatus",
+        "title": "Show API Key Status",
+        "category": "Healthcare Compliance"
+      },
+      {
+        "command": "healthcareCompliance.checkFormulaUpdates",
+        "title": "Check for Calculator Formula Updates",
+        "category": "Healthcare Compliance"
+      },
+      {
+        "command": "healthcareCompliance.scanFileForPhi",
+        "title": "Scan Current File for PHI",
+        "category": "Healthcare Compliance"
+      },
+      {
+        "command": "healthcareCompliance.scanWorkspaceForPhi",
+        "title": "Scan Workspace for PHI",
+        "category": "Healthcare Compliance"
+      },
+      {
+        "command": "healthcareCompliance.showCalculatorList",
+        "title": "Show Available Clinical Calculators",
+        "category": "Healthcare Compliance"
+      },
+      {
+        "command": "healthcareCompliance.validateCurrentFile",
+        "title": "Validate Current File (CCDA/FHIR)",
+        "category": "Healthcare Compliance"
+      },
+      {
+        "command": "healthcareCompliance.showAuditLog",
+        "title": "Show Audit Log",
+        "category": "Healthcare Compliance"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "healthcareCompliance.scanFileForPhi",
+          "group": "healthcare@1",
+          "when": "editorTextFocus"
+        },
+        {
+          "command": "healthcareCompliance.validateCurrentFile",
+          "group": "healthcare@2",
+          "when": "editorTextFocus && resourceExtname =~ /\\.(xml|json)$/"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "healthcareCompliance.scanWorkspaceForPhi",
+          "group": "healthcare@1",
+          "when": "explorerResourceIsFolder"
+        }
+      ]
+    },
+    "languages": [
+      {
+        "id": "ccda",
+        "aliases": ["C-CDA", "CCDA"],
+        "extensions": [".ccda", ".cda"],
+        "configuration": "./language-configuration.json"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/vscode": "^1.96.0",
+    "@typescript-eslint/eslint-plugin": "^6.13.0",
+    "@typescript-eslint/parser": "^6.13.0",
+    "@vscode/test-electron": "^2.3.8",
+    "@vscode/vsce": "^2.22.0",
+    "eslint": "^8.54.0",
+    "typescript": "^5.3.2"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "fast-xml-parser": "^4.3.2",
+    "node-fetch": "^3.3.2"
+  }
+}
